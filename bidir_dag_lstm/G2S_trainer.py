@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 import argparse
 import os
 import sys
@@ -63,7 +63,7 @@ def evaluate(sess, valid_graph, devDataStream, devDataStreamRev, options=None, s
     dev_loss = 0.0
     dev_right = 0.0
     dev_total = 0.0
-    for batch_index in xrange(devDataStream.get_num_batch()): # for each batch
+    for batch_index in range(devDataStream.get_num_batch()): # for each batch
         cur_batch = devDataStream.get_batch(batch_index)
         cur_batch_rev = devDataStreamRev.get_batch(batch_index)
         accu_value, loss_value, _ = valid_graph.execute(sess, cur_batch, cur_batch_rev, options, is_train=False)
@@ -105,7 +105,7 @@ def main(_):
         fullset = G2S_data_stream.read_nary_file(FLAGS.train_path, FLAGS, is_rev=False)
         fullset_rev = G2S_data_stream.read_nary_file(FLAGS.train_path, FLAGS, is_rev=True)
 
-    ids = range(len(fullset))
+    ids = list(range(len(fullset)))
     random.shuffle(ids)
     devset = [fullset[x] for x in ids[:200]]
     devset_rev = [fullset_rev[x] for x in ids[:200]]
@@ -173,7 +173,7 @@ def main(_):
     sys.stdout.flush()
 
     # initialize the best bleu and accu scores for current training session
-    best_accu = FLAGS.best_accu if FLAGS.__dict__.has_key('best_accu') else 0.0
+    best_accu = FLAGS.best_accu if 'best_accu' in FLAGS.__dict__ else 0.0
     if best_accu > 0.0:
         print('With initial dev accuracy {}'.format(best_accu))
 
@@ -222,7 +222,7 @@ def main(_):
         last_step = 0
         total_loss = 0.0
         start_time = time.time()
-        for step in xrange(max_steps):
+        for step in range(max_steps):
             cur_batch = trainDataStream.nextBatch()
             cur_batch_rev = trainDataStreamRev.nextBatch()
             assert trainDataStream.cur_pointer == trainDataStreamRev.cur_pointer
@@ -280,7 +280,7 @@ def main(_):
     log_file.close()
 
 def enrich_options(options):
-    if not options.__dict__.has_key("infile_format"):
+    if "infile_format" not in options.__dict__:
         options.__dict__["infile_format"] = "fof"
 
     return options

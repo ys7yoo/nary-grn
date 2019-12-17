@@ -77,7 +77,7 @@ def read_nary_file(inpath, options, is_rev):
             all_entity_indices.append(entity_indices)
             all_y.append(relation_set[inst['relationLabel'].strip()])
     all_lex = all_lemmas if options.word_format == 'lemma' else all_words
-    return zip(all_lex, all_poses, all_in_neigh, all_in_neigh_hidden, all_in_label, all_entity_indices, all_y)
+    return list(zip(all_lex, all_poses, all_in_neigh, all_in_neigh_hidden, all_in_label, all_entity_indices, all_y))
 
 
 def read_nary_from_fof(fofpath, options, is_rev):
@@ -139,7 +139,7 @@ class G2SDataStream(object):
         self.batches = []
         for batch_index, (batch_start, batch_end) in enumerate(batch_spans):
             cur_instances = []
-            for i in xrange(batch_start, batch_end):
+            for i in range(batch_start, batch_end):
                 cur_instances.append(all_instances[i])
             cur_batch = G2SBatch(cur_instances, options, word_vocab=word_vocab)
             self.batches.append(cur_batch)
@@ -238,13 +238,13 @@ class G2SBatch(object):
 
     def get_amrside_anonyids(self, anony_ids):
         assert self.batch_size == 1 # only for beam search
-        if self.options.__dict__.has_key("enc_word_vec_path"):
+        if "enc_word_vec_path" in self.options.__dict__:
             assert self.options.enc_word_vec_path == self.options.dec_word_vec_path # only when enc_vocab == dec_vocab
         self.amr_anony_ids = set(self.instances[0][0]) & anony_ids # sent1 of inst_0
 
 
 if __name__ == "__main__":
     all_instances = read_nary_from_fof('./data/data_list', 'lemma', True)
-    print sum(len(x[0]) for x in all_instances)/len(all_instances)
+    print(sum(len(x[0]) for x in all_instances)/len(all_instances))
     print('DONE!')
 

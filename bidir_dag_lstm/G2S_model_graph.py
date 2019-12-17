@@ -137,7 +137,7 @@ class ModelGraph(object):
                 l2_loss = tf.add_n([tf.nn.l2_loss(v) for v in tvars if v.get_shape().ndims > 1])
                 self.loss = self.loss + options.lambda_l2 * l2_loss
             grads, _ = tf.clip_by_global_norm(tf.gradients(self.loss, tvars), clipper)
-            self.train_op = optimizer.apply_gradients(zip(grads, tvars))
+            self.train_op = optimizer.apply_gradients(list(zip(grads, tvars)))
         elif options.optimize_type == 'adam':
             clipper = 50
             optimizer = tf.train.AdamOptimizer(learning_rate=options.learning_rate)
@@ -146,7 +146,7 @@ class ModelGraph(object):
                 l2_loss = tf.add_n([tf.nn.l2_loss(v) for v in tvars if v.get_shape().ndims > 1])
                 self.loss = self.loss + options.lambda_l2 * l2_loss
             grads, _ = tf.clip_by_global_norm(tf.gradients(self.loss, tvars), clipper)
-            self.train_op = optimizer.apply_gradients(zip(grads, tvars))
+            self.train_op = optimizer.apply_gradients(list(zip(grads, tvars)))
 
         extra_train_ops = []
         train_ops = [self.train_op] + extra_train_ops
@@ -198,5 +198,5 @@ class ModelGraph(object):
 if __name__ == '__main__':
     summary = " Tokyo is the one of the biggest city in the world."
     reference = "The capital of Japan, Tokyo, is the center of Japanese economy."
-    print sentence_rouge(reference, summary)
+    print(sentence_rouge(reference, summary))
 

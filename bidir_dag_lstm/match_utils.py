@@ -22,31 +22,31 @@ def match_same_row_matrix(matrix1, matrix2, feature_dim, options):
     num_rows = input_shape[0]
     matching_result = []
     matching_dim = 0
-    if options.has_key('cosine'):
+    if 'cosine' in options:
         cosine_value = cosine_distance(matrix1, matrix2)
         cosine_value = tf.reshape(cosine_value, [num_rows, 1])
         matching_result.append(cosine_value)
         matching_dim += 1
 
-    if options.has_key('euclidean'):
+    if 'euclidean' in options:
         euclidean_value = euclidean_distance(matrix1, matrix2)
         euclidean_value = tf.reshape(euclidean_value, [num_rows, 1])
         matching_result.append(euclidean_value)
         matching_dim += 1
 
-    if options.has_key('subtract'):
+    if 'subtract' in options:
         cur_matching = matrix1-matrix2
 #         cur_matching = tf.reshape(cur_matching, [num_rows, feature_dim])
         matching_result.append(cur_matching)
         matching_dim += feature_dim
 
-    if options.has_key('multiply'):
+    if 'multiply' in options:
         cur_matching = matrix1*matrix2
 #         cur_matching = tf.reshape(cur_matching, [num_rows, feature_dim])
         matching_result.append(cur_matching)
         matching_dim += feature_dim
 
-    if options.has_key('nn'):
+    if 'nn' in options:
         (nn_dim, w, b) = options['nn']
 #         with tf.variable_scope(name_scope + "-nn"):
 #             w = tf.get_variable("w", [2*feature_dim, nn_dim], dtype=tf.float32)
@@ -60,7 +60,7 @@ def match_same_row_matrix(matrix1, matrix2, feature_dim, options):
 
     matrix1_tmp = tf.expand_dims(matrix1, axis=1) #[num_rows, 'x', feature_dim]
     matrix2_tmp = tf.expand_dims(matrix2, axis=1) #[num_rows, 'x', feature_dim]
-    if options.has_key('mp-cosine'):
+    if 'mp-cosine' in options:
         (cosine_MP_dim, mp_cosine_params) = options['mp-cosine']
 #         mp_cosine_params = tf.get_variable(name_scope + "-mp-cosine", shape=[cosine_MP_dim, feature_dim], dtype=tf.float32)
         mp_cosine_params_tmp = tf.expand_dims(mp_cosine_params, axis=0) # ['x', cosine_MP_dim, feature_dim]
@@ -69,7 +69,7 @@ def match_same_row_matrix(matrix1, matrix2, feature_dim, options):
         matching_result.append(mp_cosine_matching)
         matching_dim += cosine_MP_dim
 
-    if options.has_key('mp-euclidean'):
+    if 'mp-euclidean' in options:
         (euclidean_MP_dim, mp_euclidean_params) = options['mp-euclidean']
 #         mp_euclidean_params = tf.get_variable(name_scope + "-mp-euclidean", shape=[euclidean_MP_dim, feature_dim], dtype=tf.float32)
         mp_euclidean_params_tmp = tf.expand_dims(mp_euclidean_params, axis=0) # ['x', euclidean_MP_dim, feature_dim]
@@ -278,12 +278,12 @@ def calculate_local_question_representation(question_representation, cosine_matr
         q = x[0] # question_representation: [question_len, dim]
         c = x[1] # question_index: [question_len]
         result = tf.gather(q, c)
-        for i in xrange(win_size):
+        for i in range(win_size):
             cur_index = tf.subtract(c, i+1)
             cur_index = tf.maximum(cur_index, 0)
             result = result + tf.gather(q, cur_index)
 
-        for i in xrange(1, win_size):
+        for i in range(1, win_size):
             cur_index = tf.add(c, i+1)
             cur_index = tf.minimum(cur_index, question_len-1)
             result = result + tf.gather(q, cur_index)
@@ -494,7 +494,7 @@ def highway_layer(in_val, output_size, scope=None):
 def multi_highway_layer(in_val, output_size, num_layers, scope=None):
     scope_name = 'highway_layer'
     if scope is not None: scope_name = scope
-    for i in xrange(num_layers):
+    for i in range(num_layers):
         cur_scope_name = scope_name + "-{}".format(i)
         in_val = highway_layer(in_val, output_size, scope=cur_scope_name)
     return in_val

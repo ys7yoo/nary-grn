@@ -1,4 +1,4 @@
-import cPickle as pickle
+import pickle as pickle
 import os
 import sys
 from metric_bleu_utils import Bleu
@@ -64,23 +64,23 @@ def evaluate(data_path='./data', split='val', get_scores=False):
     final_scores = score_all(ref, hypo)
 
     # print out scores
-    print 'Bleu_1:\t',final_scores['Bleu_1']
-    print 'Bleu_2:\t',final_scores['Bleu_2']
-    print 'Bleu_3:\t',final_scores['Bleu_3']
-    print 'Bleu_4:\t',final_scores['Bleu_4']
-    print 'METEOR:\t',final_scores['METEOR']
-    print 'ROUGE_L:',final_scores['ROUGE_L']
-    print 'CIDEr:\t',final_scores['CIDEr']
+    print('Bleu_1:\t',final_scores['Bleu_1'])
+    print('Bleu_2:\t',final_scores['Bleu_2'])
+    print('Bleu_3:\t',final_scores['Bleu_3'])
+    print('Bleu_4:\t',final_scores['Bleu_4'])
+    print('METEOR:\t',final_scores['METEOR'])
+    print('ROUGE_L:',final_scores['ROUGE_L'])
+    print('CIDEr:\t',final_scores['CIDEr'])
 
     if get_scores:
         return final_scores
 
 
 if __name__ == "__main__":
-    ref = [[u'a tiddy bear',u'a animal'],[u'<START> a number of luggage bags on a cart in a lobby .', u'<START> a cart filled with suitcases and bags .', u'<START> trolley used for transporting personal luggage to guests rooms .', u'<START> wheeled cart with luggage at lobby of commercial business .', u'<START> a luggage cart topped with lots of luggage .']]
-    dec = [u'some one',u' a man is standing next to a car with a suitcase .']
+    ref = [['a tiddy bear','a animal'],['<START> a number of luggage bags on a cart in a lobby .', '<START> a cart filled with suitcases and bags .', '<START> trolley used for transporting personal luggage to guests rooms .', '<START> wheeled cart with luggage at lobby of commercial business .', '<START> a luggage cart topped with lots of luggage .']]
+    dec = ['some one',' a man is standing next to a car with a suitcase .']
     r = [evaluate_captions([k], [v]) for k, v in zip(ref, dec)]
-    print r
+    print(r)
 
 
 

@@ -3,5 +3,5 @@
 #SBATCH --mem=20GB
 #SBATCH -c 5
 
-python G2S_trainer.py --config_path config.json
+python3 G2S_trainer.py --config_path config.json
 

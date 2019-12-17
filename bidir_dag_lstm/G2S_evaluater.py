@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 import argparse
 import re
 import os
@@ -101,7 +101,7 @@ if __name__ == '__main__':
         test_right = 0.0
         test_total = 0.0
         start_time = time.time()
-        for batch_index in xrange(devDataStream.get_num_batch()): # for each batch
+        for batch_index in range(devDataStream.get_num_batch()): # for each batch
             cur_batch = devDataStream.get_batch(batch_index)
             cur_batch_rev = devDataStreamRev.get_batch(batch_index)
             assert cur_batch.batch_size == cur_batch_rev.batch_size

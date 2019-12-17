@@ -11,7 +11,7 @@ def pad_2d_vals_no_size(in_vals, dtype=np.int32):
 def pad_2d_vals(in_vals, dim1_size, dim2_size, dtype=np.int32):
     out_val = np.zeros((dim1_size, dim2_size), dtype=dtype)
     if dim1_size > len(in_vals): dim1_size = len(in_vals)
-    for i in xrange(dim1_size):
+    for i in range(dim1_size):
         cur_in_vals = in_vals[i]
         cur_dim2_size = dim2_size
         if cur_dim2_size > len(cur_in_vals): cur_dim2_size = len(cur_in_vals)
@@ -30,11 +30,11 @@ def pad_3d_vals_no_size(in_vals, dtype=np.int32):
 def pad_3d_vals(in_vals, dim1_size, dim2_size, dim3_size, dtype=np.int32):
     out_val = np.zeros((dim1_size, dim2_size, dim3_size), dtype=dtype)
     if dim1_size > len(in_vals): dim1_size = len(in_vals)
-    for i in xrange(dim1_size):
+    for i in range(dim1_size):
         in_vals_i = in_vals[i]
         cur_dim2_size = dim2_size
         if cur_dim2_size > len(in_vals_i): cur_dim2_size = len(in_vals_i)
-        for j in xrange(cur_dim2_size):
+        for j in range(cur_dim2_size):
             in_vals_ij = in_vals_i[j]
             cur_dim3_size = dim3_size
             if cur_dim3_size > len(in_vals_ij): cur_dim3_size = len(in_vals_ij)
@@ -44,15 +44,15 @@ def pad_3d_vals(in_vals, dim1_size, dim2_size, dim3_size, dtype=np.int32):
 def pad_4d_vals(in_vals, dim1_size, dim2_size, dim3_size, dim4_size, dtype=np.int32):
     out_val = np.zeros((dim1_size, dim2_size, dim3_size, dim4_size), dtype=dtype)
     if dim1_size > len(in_vals): dim1_size = len(in_vals)
-    for i in xrange(dim1_size):
+    for i in range(dim1_size):
         in_vals_i = in_vals[i]
         cur_dim2_size = dim2_size
         if cur_dim2_size > len(in_vals_i): cur_dim2_size = len(in_vals_i)
-        for j in xrange(cur_dim2_size):
+        for j in range(cur_dim2_size):
             in_vals_ij = in_vals_i[j]
             cur_dim3_size = dim3_size
             if cur_dim3_size > len(in_vals_ij): cur_dim3_size = len(in_vals_ij)
-            for k in xrange(cur_dim3_size):
+            for k in range(cur_dim3_size):
                 in_vals_ijk = in_vals_ij[k]
                 cur_dim4_size = dim4_size
                 if cur_dim4_size > len(in_vals_ijk): cur_dim4_size = len(in_vals_ijk)
@@ -62,7 +62,7 @@ def pad_4d_vals(in_vals, dim1_size, dim2_size, dim3_size, dim4_size, dtype=np.in
 def pad_target_labels(in_val, max_length, dtype=np.float32):
     batch_size = len(in_val)
     out_val = np.zeros((batch_size, max_length), dtype=dtype)
-    for i in xrange(batch_size):
+    for i in range(batch_size):
         for index in in_val[i]:
             out_val[i,index] = 1.0
     return out_val
